@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Create account' if mode == 'register' else 'Log in' }}{% endblock %}
+{% block content %}
+<main class="auth-main">
+  <div class="auth-card">
+    <div class="eyebrow dark">{{ 'GET STARTED' if mode == 'register' else 'WELCOME BACK' }}</div>
+    <h1>{{ 'Create your account' if mode == 'register' else 'Log in to RailWayGo' }}</h1>
+    <p class="muted">{{ 'Register to book and manage demo tickets.' if mode == 'register' else 'Sign in to see your bookings and manage tickets.' }}</p>
+    <form method="post">
+      {% if mode == 'register' %}
+      <div class="field"><label for="full_name">Full name</label><input id="full_name" name="full_name" maxlength="100" required autocomplete="name"></div>
+      {% endif %}
+      <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" maxlength="150" required autocomplete="email"></div>
+      <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" minlength="8" required autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}"></div>
+      {% if mode == 'register' %}<p class="small-muted">Use at least 8 characters. Passwords are stored as secure hashes.</p>{% endif %}
+      <button class="primary-btn full-width" type="submit">{{ 'Create account' if mode == 'register' else 'Log in' }}</button>
+    </form>
+    <p class="switch-auth">{% if mode == 'register' %}Already registered? <a href="{{ url_for('login') }}">Log in</a>{% else %}New here? <a href="{{ url_for('register') }}">Create an account</a>{% endif %}</p>
+  </div>
+</main>
+{% endblock %}

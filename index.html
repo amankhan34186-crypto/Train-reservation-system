@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero"><div class="hero-inner"><div class="eyebrow">YOUR JOURNEY, MADE SIMPLER</div><h1>Every journey starts with a simple search.</h1><p>Search sample train routes, check seats, and reserve a demo ticket in a few steps.</p></div></section>
+<main>
+  <section class="search-card">
+    <form id="searchForm">
+      <div class="search-grid">
+        <div class="field"><label for="source">From station</label><select id="source" required><option>Mumbai</option><option>Pune</option><option>Delhi</option><option>Ahmedabad</option><option>Bengaluru</option><option>Hyderabad</option></select></div>
+        <div class="field"><label for="destination">To station</label><select id="destination" required><option>Pune</option><option>Mumbai</option><option>Delhi</option><option>Ahmedabad</option><option>Bengaluru</option><option>Hyderabad</option></select></div>
+        <div class="field"><label for="journeyDate">Journey date</label><input id="journeyDate" type="date" min="{{ today }}" value="{{ today }}" required></div>
+        <button class="primary-btn" type="submit">Search trains →</button>
+      </div>
+    </form>
+    <div class="notice">College demo only: train names, schedules, fares and seat counts are sample data, not live Indian Railways information.</div>
+  </section>
+  <div class="section-head"><div><h2 id="resultsTitle">Popular sample routes</h2><p id="resultsSubtitle">Choose a route to see sample trains for your journey.</p></div><span class="tag">● MySQL connected app</span></div>
+  <div class="results" id="trainResults" aria-live="polite"><div class="empty">Search for a route to load train data from MySQL.</div></div>
+
+  <section class="features">
+    <article class="feature"><div class="feature-icon">🔎</div><div><h3>Search with ease</h3><p>Train routes and journey schedules are read from the MySQL database.</p></div></article>
+    <article class="feature"><div class="feature-icon">🎟️</div><div><h3>PNR booking</h3><p>Book up to six passengers and store booking records in MySQL.</p></div></article>
+    <article class="feature"><div class="feature-icon">🗃️</div><div><h3>DBMS concepts</h3><p>Uses foreign keys, joins, transactions, constraints and indexes.</p></div></article>
+  </section>
+
+  <section class="booking-section" id="my-bookings">
+    <div class="section-head"><div><h2>My Bookings</h2><p>Your bookings are loaded from the database after login.</p></div></div>
+    {% if session.get('user_id') %}
+      <div id="bookingList" class="panel">Loading your bookings…</div>
+    {% else %}
+      <div class="panel"><p>Please <a href="{{ url_for('login') }}">log in</a> to view and cancel your bookings.</p></div>
+    {% endif %}
+  </section>
+</main>
+
+<div class="modal-backdrop" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head"><h2 id="modalTitle">Book a demo ticket</h2><button class="close" id="closeModal" aria-label="Close">×</button></div>
+    <p id="selectedTrainText" class="small-muted"></p>
+    <form id="bookingForm">
+      <div class="field"><label for="passengerCount">Number of passengers</label><select id="passengerCount"><option value="1">1 passenger</option><option value="2">2 passengers</option><option value="3">3 passengers</option><option value="4">4 passengers</option><option value="5">5 passengers</option><option value="6">6 passengers</option></select></div>
+      <div id="passengerFields"></div>
+      <button class="primary-btn full-width" type="submit">Confirm booking</button>
+    </form>
+    <p class="small-muted">No payment is collected. Enter only sample passenger details for your college demo.</p>
+  </div>
+</div>
+<div class="modal-backdrop" id="confirmationModal" role="dialog" aria-modal="true" aria-labelledby="confirmationTitle">
+  <div class="modal"><div class="modal-head"><h2 id="confirmationTitle">Booking confirmed</h2><button class="close" data-close-confirm aria-label="Close">×</button></div><div id="confirmationBody"></div></div>
+</div>
+{% endblock %}

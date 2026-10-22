@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}RailWayGo{% endblock %} · Train Reservation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body data-logged-in="{{ 'true' if session.get('user_id') else 'false' }}">
+<header class="topbar">
+  <a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">🚆</span><span>RailWay<span class="gold">Go</span><small>SMART RAIL RESERVATION</small></span></a>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    {% if session.get('user_id') %}
+      <a href="{{ url_for('index') }}#my-bookings" data-open-bookings>My Bookings</a>
+      <span class="welcome">Hi, {{ session.get('full_name', 'Traveler') }}</span>
+      <a class="nav-pill" href="{{ url_for('logout') }}">Log out</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Log in</a>
+      <a class="nav-pill" href="{{ url_for('register') }}">Create account</a>
+    {% endif %}
+  </nav>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<div class="flash-wrap">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+{% block content %}{% endblock %}
+<footer>RailWayGo · Student DBMS Project · Sample data only, not an official railway service</footer>
+</body>
+</html>
